@@ -65,9 +65,10 @@ This project showcases an elegant UI to display menu items, cafe details, and pr
 ---
 
 ## 📬 Contact & Feedback
-📧 [devisarunadevidd@gmail.com](mailto:devisarunadevidd@gmail.com)  
-🔗 [GitHub Profile](https://github.com/devisarunadevid)
+📧 [23cseb24shreevikhashinij@gmail.com](mailto:23cseb24shreevikhashinij@gmail.com)  
+🔗 [GitHub Profile](https://github.com/ShreevikhashiniJ123)
 
 ---
 
-✨ *Made with ❤️ by Devis Aruna Devi D*
+✨ *Made with ❤️ by Shree Vikhashini J*
+
