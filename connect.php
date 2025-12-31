@@ -1,46 +1,63 @@
 <?php
-$servername = "sql305.infinityfree.com"; 
-$username = "if0_39270221";             
-$password = "arunadevi45";   
-$dbname = "if0_39270221_cafe";          
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+session_start();
+
+/* DB CONNECTION */
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "cafe";
 
 $con = mysqli_connect($servername, $username, $password, $dbname);
 
 if (!$con) {
-    die("Connection failed: " . mysqli_connect_error());
+    die("Database connection failed: " . mysqli_connect_error());
 }
 
-$a = $_POST['name'];
-$b = $_POST['email'];
-$c = $_POST['password'];
-$d = $_POST['phone_number'];
-$e = $_POST['specials'];
-$f = $_POST['dob'];
+/* FORM DATA */
+$name  = $_POST['name'] ?? '';
+$email = $_POST['email'] ?? '';
+$pass  = $_POST['password'] ?? '';
+$phone = $_POST['phone_number'] ?? '';
+$spec  = $_POST['specials'] ?? '';
+$dob   = $_POST['dob'] ?? '';
 
+/* FILE UPLOAD */
 $target_dir = "uploads/";
 if (!is_dir($target_dir)) {
     mkdir($target_dir, 0777, true);
 }
-$target_file = $target_dir . basename($_FILES["id_proof"]["name"]);
-move_uploaded_file($_FILES["id_proof"]["tmp_name"], $target_file);
 
-$query = "INSERT INTO details (name, email, password, phone_number, specials, dob, id_proof) 
-          VALUES ('$a', '$b', '$c', '$d', '$e', '$f', '$target_file')";
+$target_file = "";
+if (!empty($_FILES['id_proof']['name'])) {
+    $target_file = $target_dir . basename($_FILES["id_proof"]["name"]);
+    move_uploaded_file($_FILES["id_proof"]["tmp_name"], $target_file);
+}
 
-session_start();
-if (mysqli_query($con, $query)) {
+/* INSERT QUERY */
+$sql = "INSERT INTO details 
+(name, email, password, phone_number, specials, dob, id_proof)
+VALUES 
+('$name', '$email', '$pass', '$phone', '$spec', '$dob', '$target_file')";
+
+if (mysqli_query($con, $sql)) {
+
     $_SESSION['user_details'] = [
-        'name' => $a,
-        'email' => $b,
-        'phone_number' => $d,
-        'specials' => $e,
-        'dob' => $f,
+        'name' => $name,
+        'email' => $email,
+        'phone_number' => $phone,
+        'specials' => $spec,
+        'dob' => $dob,
         'id_proof' => $target_file
     ];
-    header('Location: details.php');
+
+    header("Location: detailsss.php");
     exit();
+
 } else {
-    echo "Error: " . $query . "<br>" . mysqli_error($con);
+    echo "SQL ERROR: " . mysqli_error($con);
 }
 
 mysqli_close($con);
